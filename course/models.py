@@ -5,23 +5,29 @@ class TimeStampeModel(models.Model):
     update = models.DateTimeField(auto_now=True)
     class Meta:
         abstract = True
-class Barchasi(TimeStampeModel):
-    ism = models.CharField(null=True, blank=True)
-    gapir = models.TextField(null=True, blank=True)
-    gap = models.EmailField(null=True, blank=True)
-    q = models.URLField(null=True, blank=True)
-    w = models.IntegerField(null=True, blank=True)
-    e = models.SmallIntegerField(null=True, blank=True)
-    r = models.BigIntegerField(null=True, blank=True)
-    t = models.PositiveIntegerField(null=True, blank=True)
-    y = models.PositiveSmallIntegerField(null=True, blank=True)
-    u = models.FloatField(null=True, blank=True)
-    i = models.DecimalField(null=True, blank=True)
-    o = models.DateField(null=True, blank=True)
-    p = models.TimeField(null=True, blank=True)
-    a = models.DateTimeField(null=True, blank=True)
-    s = models.DurationField(null=True, blank=True)
-    d = models.BooleanField(null=True, blank=True)
-    f = models.FileField(null=True, blank=True)
 
-
+class Student(TimeStampeModel):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    age = models.PositiveIntegerField(default=18)
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+class Teacher(TimeStampeModel):
+    jins = (
+        ('erkak', 'erkak'),
+        ('ayol', 'ayol'),
+    )
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField(null=True, blank=True)
+    sertifikat = models.BooleanField(default=False)
+    jins = models.CharField(choices=jins, max_length=100)
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+class Subject(TimeStampeModel):
+    subject = models.CharField(max_length=100)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    ball = models.PositiveIntegerField(default=0)
+    def __str__(self):
+        return f'{self.subject} {self.teacher} {self.ball}'
